@@ -20,7 +20,7 @@ module Linguist
     end
 
     def language
-      @repository.language? || ""
+      @repository.try {|r| r.language } || ""
     end
 
     def languages

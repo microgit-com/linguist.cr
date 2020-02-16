@@ -83,9 +83,7 @@ module Linguist
     #
     # Returns a language name
     def language
-      return @language if @language
-      primary = languages.max_by { |(_, size)| size }
-      return primary[0] if primary && primary[0]
+      languages.try {|l| l.first } 
     end
 
     # Public: Get the total size of the repository.
