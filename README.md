@@ -4,7 +4,7 @@ Github's linguist but in crystal.
 
 Linguist will use different ways to find what type of programming language every file is, which can be used for stats or for highlights.
 
-We only have classifier mapping now but support languages.yml-format and samples format from Github's linguist. Hopefully soon we will add the rest, like Heuristics and shebang filtering support.
+We only have filename, extension name and classifier mapping now but support languages.yml-format and samples format from Github's linguist. Hopefully soon we will add the rest, like Heuristics and shebang filtering support.
 
 We can not promise that the loaded data in `./data` is up to date. So if you want to be sure, let's train it again with overwrite set to `true`.
 
@@ -45,9 +45,11 @@ logger.info langs
 We have this todo:
 - [x] Repository blob support
 - [x] Classifier
+- [x] Filename-finder
+- [x] Extension-finder
 - [ ] Heuristics support
 - [ ] Shebang filter support
-- [ ] simple file checkup.
+- [ ] simple file text check without repository.
 
 ## Contributing
 
