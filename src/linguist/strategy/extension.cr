@@ -14,10 +14,10 @@ module Linguist
       # Returns an array of languages associated with a blob's file extension.
       # Selected languages must be in the candidate list, except if it's empty,
       # in which case any language is a valid candidate.
-      def self.call(blob, candidates, real_languages) : Array(Language)
+      def self.call(blob, candidates, real_languages) : Array(Language) | Array(Tuple(Language, Float64))
         return [] of Language if blob.nil?
         languages = real_languages.find_by_extension(blob.name.to_s)
-        candidates.any? ? candidates.to_a + languages.to_a : languages
+        candidates.any? ? candidates.to_a & languages.to_a : languages
       end
     end
   end

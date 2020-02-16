@@ -40,8 +40,6 @@ module Linguist
       @commit_oid = commit_oid
       first_commit = get_first_commit
       @old_commit_oid = first_commit.oid
-      logger = Logger.new(STDOUT)
-      logger.info first_commit.message
     end
 
     def get_first_commit

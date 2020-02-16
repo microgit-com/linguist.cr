@@ -24,6 +24,10 @@ module Linguist
       @blob.text
     end
 
+    def data
+      @blob.text
+    end
+
     def finalize
       true
     end

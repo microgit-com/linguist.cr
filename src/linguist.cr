@@ -2,6 +2,7 @@ require "./linguist/repository"
 require "./linguist/strategy/extension"
 require "./linguist/strategy/filename"
 require "./linguist/strategy/manpage"
+require "./linguist/strategy/classifier"
 require "git"
 
 module Linguist
@@ -9,7 +10,7 @@ module Linguist
     Strategy::Filename,
     Strategy::Extension,
     Strategy::Manpage,
-    Classifier,
+    Strategy::Classifier,
   ]
   class Linguist
     property :repository
@@ -24,10 +25,6 @@ module Linguist
 
     def languages
       @repository.try {|r| r.languages } || ""
-    end
-
-    def find
-
     end
   end
 end

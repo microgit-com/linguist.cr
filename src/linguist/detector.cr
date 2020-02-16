@@ -1,5 +1,4 @@
 require "./language_container"
-require "./classifier"
 require "./blob"
 
 module Linguist
@@ -17,19 +16,10 @@ module Linguist
       @blob = ::Linguist::Blob.from_git(@repository, delta, name)
     end
 
-    def load
-      @classifier.load("./data")
-    end
-
-    def train
-      load
-      @classifier.train_on("./samples")
-    end
-
     def language
       found = find
       return nil if found.empty?
-      find.first
+      found.first
     end
 
     def languages
@@ -38,10 +28,20 @@ module Linguist
 
     def find
       langs = [] of Language
+      languages_arr = [] of Language
       STRATEGIES.each do |strategy|
-        langs = strategy.call(@blob, langs, @languages)
+        langs = strategy.call(@blob, languages_arr, @languages)
+        if langs.size == 1
+          languages_arr = langs
+          break
+        elsif langs.size > 1
+          # More than one candidate was found, pass them to the next strategy.
+          languages_arr = langs
+        else
+          # No candidates, try the next strategy
+        end
       end
-      langs
+      languages_arr
     end
 
     def size
