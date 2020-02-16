@@ -2,11 +2,11 @@ language: crystal
 
 # Uncomment the following if you'd like Travis to run specs and check code formatting
 before_install:
-  - sudo apt-get -y install libgit2
+  - sudo apt-get -y install libgit2-dev libgit2-24
 addons:
   apt:
     update: true
-    
+
 script:
   - crystal spec
 #   - crystal tool format --check
