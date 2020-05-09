@@ -4,6 +4,7 @@ require "./linguist/strategy/filename"
 require "./linguist/strategy/manpage"
 require "./linguist/strategy/classifier"
 require "git"
+require "habitat"
 
 module Linguist
   STRATEGIES = [
@@ -12,6 +13,11 @@ module Linguist
     Strategy::Manpage,
     Strategy::Classifier,
   ]
+
+  Habitat.create do
+    setting path : String = [__DIR__, "linguist/languages.yml"].join("/")
+  end
+
   class Linguist
     property :repository
 

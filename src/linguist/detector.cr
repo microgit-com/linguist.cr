@@ -1,9 +1,10 @@
 require "./language_container"
 require "./blob"
+require "./repository"
 
 module Linguist
   class Detector
-    @repository : Git::Repository
+    @repository : Repository
     @blob : Blob | Nil
     @languages : LanguageContainer
 

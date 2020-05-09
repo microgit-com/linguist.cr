@@ -13,11 +13,14 @@ module Linguist
     @repository : Git::Repository
     @commit_oid : Git::Oid | String
     @old_commit_oid : Git::Oid | String
-    @old_stats : Hash(String, Array(Int32 | Int64 | Language | Nil)) | Nil
-    @cache : Hash(String, Array(Int32 | Int64 | Language | Nil)) | Nil
+    @old_stats : Hash(String, Tuple(Language | Nil, Int32 | Int64)) | Nil
+    @cache : Hash(String, Tuple(Language | Nil, Int32 | Int64)) | Nil
     @tree : Git::Tree | Nil
     @size : Int32 | Nil
     @detector : Detector | Nil
+    @language : Tuple(String, Tuple(Language | Nil, Int32 | Int64)) | Nil
+
+    getter :repository
 
     # Public: Create a new Repository based on the stats of
     # an existing one
@@ -83,7 +86,10 @@ module Linguist
     #
     # Returns a language name
     def language
-      languages.try {|l| l.first } 
+      @language ||= begin
+        return nil if languages.nil?
+        lang = languages.not_nil!.max_by { |l| l[1][1] }
+      end
     end
 
     # Public: Get the total size of the repository.
@@ -123,7 +129,7 @@ module Linguist
         @detector.try {|d| d.set_blob(blob, name) }
         return @detector
       else
-        @detector = Detector.new(@repository)
+        @detector = Detector.new(self)
         @detector.try {|d| d.set_blob(blob, name) }
         return @detector
       end
@@ -144,7 +150,7 @@ module Linguist
       #  diff = Git::Diff.tree_to_tree(old_tree = nil, current_tree)
       #  file_map = {} of String => String
       #else
-        file_map = cache ? cache.dup : {} of String => Array(Int32 | Int64 | Language | Nil)
+        file_map = cache ? cache.dup : {} of String => Tuple(Language | Nil, Int32 | Int64)
       #end
 
       diff.each_delta do |delta|
@@ -163,7 +169,7 @@ module Linguist
           blob = detector(delta.new_file.id, delta.new_file.path.split("/").last)
 
           if blob.try { |b| b.include_in_language_stats? }
-            file_map[new] = [blob.try { |b| b.language }, blob.try { |b| b.size } || 0]
+            file_map[new] = {blob.try { |b| b.language }, blob.try { |b| b.size } || 0}
           end
 
           blob.try {|b| b.finalize }

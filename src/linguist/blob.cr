@@ -1,15 +1,14 @@
 module Linguist
   class Blob
     @blob : Git::Blob
+    @repository : Repository
     @name : String | Nil
 
-    def self.from_git(repository, delta, name)
-      new(Git::Blob.lookup(repository, delta), name)
+    def self.from_git(repository : Repository, delta, name)
+      new(repository, Git::Blob.lookup(repository.repository, delta), name)
     end
 
-    def initialize(blob : Git::Blob | File, name)
-      @blob = blob
-      @name = name
+    def initialize(@repository, @blob : Git::Blob | File, @name)
     end
 
     def name

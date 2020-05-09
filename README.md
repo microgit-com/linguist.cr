@@ -26,6 +26,15 @@ We can not promise that the loaded data in `./data` is up to date. So if you wan
 require "linguist"
 ```
 
+Set path to the languages.yml if it is not working like this:
+```crystal
+Linguist.configure do |settings|
+  settings.path = "./config/linguist/languages.yml"
+end
+```
+
+The languages.yml can be found in the git repo of this or a more up to date one on github's linguist repo at https://github.com/github/linguist
+
 ### Using repository
 
 ```crystal

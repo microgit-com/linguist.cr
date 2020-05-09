@@ -16,7 +16,7 @@ module Linguist
     property :ace_mode
 
     def self.create_from_file
-      languages = YAML.parse(File.read("./src/linguist/languages.yml"))
+      languages = YAML.parse(File.read(::Linguist.settings.path))
       returns = [] of Language
       languages.as_h.each do |lang|
         next if languages.nil?

@@ -8,7 +8,7 @@ module Linguist
     @popular : Array(Language) | Nil
 
     def initialize
-      languages_yaml = YAML.parse(File.read("./src/linguist/languages.yml"))
+      languages_yaml = YAML.parse(File.read(::Linguist.settings.path))
       @languages = [] of Language
       @extension_index = {} of String => Array(Language)
       @filename_index = {} of String => Array(Language)
@@ -16,6 +16,11 @@ module Linguist
       @alias_index = {} of String => Language
       @interpreter_index = {} of String => Array(Language)
       setup_variables(languages_yaml)
+    end
+
+    def find_by_alias(lang : String) : Array(Language)
+      return @alias_index[lang.downcase].to_a if @alias_index[lang.downcase]?
+      [] of Language
     end
 
     def find_by_extension(filename : String) : Array(Language)
