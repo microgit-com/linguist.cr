@@ -16,7 +16,7 @@ module Linguist
 
       def self.call(blob, languages, real_languages) : Array(Language) | Array(Tuple(Language, Float64))
         classifier = Classifier.new(real_languages)
-        classifier.load("./data")
+        classifier.load(::Linguist.settings.data_path)
 
         return [] of Language if blob.nil?
         classifier.simple_categorize(blob.text, languages)
@@ -71,7 +71,7 @@ module Linguist
           texts.each do |line|
             train(line, name)
           end
-          save("./data")
+          save(::Linguist.settings.data_path)
           puts
         end
       end

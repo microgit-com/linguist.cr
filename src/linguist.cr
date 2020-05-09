@@ -16,6 +16,7 @@ module Linguist
 
   Habitat.create do
     setting path : String = [__DIR__, "linguist/languages.yml"].join("/")
+    setting data_path : String = [__DIR__, "..", "data"].join("/")
   end
 
   class Linguist
