@@ -17,6 +17,10 @@ module Linguist
       @blob = ::Linguist::Blob.from_git(@repository, delta, name)
     end
 
+    def set_blob_git(blob, name)
+      @blob = ::Linguist::Blob.from_git_blob(@repository, blob, name)
+    end
+
     def language
       found = find
       return nil if found.empty?

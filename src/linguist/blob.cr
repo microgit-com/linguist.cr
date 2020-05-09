@@ -8,6 +8,10 @@ module Linguist
       new(repository, Git::Blob.lookup(repository.repository, delta), name)
     end
 
+    def self.from_git_blob(repository : Repository, blob, name)
+      new(repository, blob, name)
+    end
+
     def initialize(@repository, @blob : Git::Blob | File, @name)
     end
 
